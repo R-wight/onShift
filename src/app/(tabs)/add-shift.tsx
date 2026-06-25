@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { addShift } from "@/storage/shifts";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function AddShiftsScreen() {
     const [name, setName] = useState('');
@@ -75,7 +76,7 @@ export default function AddShiftsScreen() {
             <View style={styles.row}>
                 <Text style={[globalStyles.label, globalStyles.paragraphs]}>Start Time</Text>
                 <Pressable style={styles.rowInput} onPress={()=>setShowTimeStart(true)}> 
-                    <Text style={styles.input}>{timeStart.toLocaleTimeString()}</Text>
+                    <Text style={styles.input}>{timeStart.toLocaleTimeString('en-US', {timeStyle:'short'})}</Text>
                 </Pressable>
                 {showTimeStart && (
                     <DateTimePicker
@@ -89,7 +90,7 @@ export default function AddShiftsScreen() {
             <View style={styles.row}>
                 <Text style={[globalStyles.label, globalStyles.paragraphs]}>End Time</Text>
                 <Pressable style={styles.rowInput} onPress={()=>setShowTimeEnd(true)}> 
-                    <Text style={styles.input}>{timeEnd.toLocaleTimeString()}</Text>
+                    <Text style={styles.input}>{timeEnd.toLocaleTimeString('en-US', {timeStyle:'short'})}</Text>
                 </Pressable>
                 {showTimeEnd && (
                     <DateTimePicker
@@ -113,16 +114,18 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     fontSize: 16,
-    marginTop: 16,
+    marginTop: 5,
   },
   row: {
-    flexDirection: 'row',
-    gap: 10,
+    alignSelf: 'flex-start',
+    width: '100%',
+    marginLeft: 10
   },
   rowInput: {
-    width: 200,
+    width: '90%',
     height: 75,
-    marginTop: 15
+    marginTop: 5,
+    marginBottom: 5
   },
   button: {
     backgroundColor: '#4fc3f7',

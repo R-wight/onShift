@@ -27,6 +27,6 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: colors.background
   },
   label: {
-    alignSelf: 'center',
+    
   }
 });
