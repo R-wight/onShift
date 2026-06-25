@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "OnShift",
-    "slug": "OnShift",
+    "slug": "onshift",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -39,6 +39,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fcc28730-13e6-48c3-8fc8-feddc8321080"
+      }
+    },
+    "owner": "rwights-team"
   }
 }
