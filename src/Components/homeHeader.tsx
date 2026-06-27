@@ -10,7 +10,7 @@ export default function HomeHeader() {
 
     return (
         <View>
-            <Text style={globalStyles.paragraphs}>{currentDate}</Text>
+            <Text style={globalStyles.paragraphs}>Current Date: {currentDate}</Text>
         </View>
     );
 }

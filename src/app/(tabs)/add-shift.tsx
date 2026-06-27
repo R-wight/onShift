@@ -1,6 +1,8 @@
 import { globalStyles } from "@/styles/global";
 import { useState } from 'react';
+import { router } from "expo-router";
 import { 
+    Alert,
     StyleSheet,
     Text,
     TextInput,
@@ -22,8 +24,34 @@ export default function AddShiftsScreen() {
     const [timeEnd, setTimeEnd] = useState(new Date());
     
     // Need to add the addShift method here, and do some validation, check if end date is before start date
-    const handleAddShift = () => {
-        console.log({name, date, timeStart});
+    const handleAddShift = async () => {
+        // Check for if the end time of the shift is before the start time of the shift
+        // Invalid time
+        if(timeEnd.getTime() <= timeStart.getTime()){
+            Alert.alert('Error', "Your end time was before your start time");
+            return;
+        }
+        // Check for if the date picked is after the current date
+        // Invalid date
+        if(date.getTime() > (new Date()).getTime()){
+            Alert.alert('Error', "That date is after the current date");
+            return;
+        }
+        await addShift({
+            name,
+            date: date,
+            startTime: timeStart,
+            endTime: timeEnd
+        });
+
+        setName('');
+        setDate(new Date);
+        setTimeStart(new Date);
+        setTimeEnd(new Date);
+
+        Alert.alert('Success', "Shift added successfully!");
+        router.push('/');
+
     };
 
     const onChangeDate = (event: any, selectedDate?: Date) => {
