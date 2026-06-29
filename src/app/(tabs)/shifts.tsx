@@ -39,8 +39,8 @@ export default function ShiftsScreen() {
     return (
         <View style={styles.container}>
             <Text style={[globalStyles.title, {textAlign: "center"}]}>All Shifts</Text>
-            <View style={styles.shifts}>
-                <ShiftInfo shifts={shifts} title={""} custStyles={styles.shifts}/>
+            <View>
+                <ShiftInfo shifts={shifts} title={""} custStyles={styles.shifts} cardStyle={styles.cardStyle}/>
             </View>
         </View>
         
@@ -56,6 +56,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-evenly"
+    justifyContent: "space-between"
+  },
+  cardStyle: {
+    width: "31%"
   }
 });

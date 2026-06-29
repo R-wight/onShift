@@ -9,7 +9,7 @@ export default function HomeHeader() {
     });
 
     return (
-        <View>
+        <View style={{marginBottom: 10}}>
             <Text style={globalStyles.paragraphs}>Current Date: {currentDate}</Text>
         </View>
     );
