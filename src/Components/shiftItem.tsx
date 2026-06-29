@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 16,
     marginBottom: 10,
+    // width: "30%"
   },
   name: {
     fontSize: 16,

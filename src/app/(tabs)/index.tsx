@@ -33,7 +33,7 @@ export default function Index() {
       {/* Should maybe have the Past Two weeks in the shift info component, maybe I can pass in a title
       so it can have different titles */}
       <Text style={globalStyles.paragraphs}>Past Two Weeks:</Text>
-      <ShiftInfo shifts={shifts} />
+      <ShiftInfo shifts={shifts} title={"Current Pay Period"} />
     </View>
   );
 }

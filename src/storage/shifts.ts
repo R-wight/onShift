@@ -12,6 +12,7 @@ const SHIFTS_KEY = 'shifts';
 
 export const getShifts = async (): Promise<Shift[]> => {
     const data = await AsyncStorage.getItem(SHIFTS_KEY);
+    // console.log("From Storage", data);
     return data ? JSON.parse(data) : [];
 };
 

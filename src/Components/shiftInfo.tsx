@@ -5,12 +5,13 @@ import ShiftItem from "./shiftItem";
 
 type ShiftInfoProps = {
     shifts: Shift[];
+    title: string;
 }
 
-export default function ShiftInfo({ shifts }: ShiftInfoProps) {
+export default function ShiftInfo({ shifts, title }: ShiftInfoProps) {
     return (
         <View style={{ marginTop: 30 }}>
-            <Text style={globalStyles.paragraphs}>Past Shifts</Text>
+            <Text style={globalStyles.paragraphs}>{title}</Text>
             {shifts.length === 0 ? (
                 <Text style={globalStyles.paragraphs}>No shifts logged yet</Text>
             ) : (
