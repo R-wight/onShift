@@ -40,7 +40,7 @@ export default function ShiftsScreen() {
         <View style={styles.container}>
             <Text style={[globalStyles.title, {textAlign: "center"}]}>All Shifts</Text>
             <View style={styles.shifts}>
-                <ShiftInfo shifts={shifts} title={""} />
+                <ShiftInfo shifts={shifts} title={""} custStyles={styles.shifts}/>
             </View>
         </View>
         
@@ -50,12 +50,12 @@ export default function ShiftsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1a1a2e"
+    backgroundColor: "#1a1a2e",
   },
   shifts: {
+    marginTop: 10,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginLeft: 10,
+    justifyContent: "space-evenly"
   }
 });
