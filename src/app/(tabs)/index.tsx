@@ -4,7 +4,7 @@ import {globalStyles} from "@/styles/global";
 import { colors } from "@/styles/global";
 import  HomeHeader  from "@/Components/homeHeader";
 import { Link } from "expo-router";
-import { getShifts, Shift, isOnShift, toggleShift, startShift, endShift } from "@/storage/shifts";
+import { getShifts, Shift, isOnShift, toggleShift, startShift, endShift, removeShift } from "@/storage/shifts";
 import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useFocusEffect } from 'expo-router';
 import  ShiftInfo  from '@/Components/shiftInfo'
@@ -61,7 +61,6 @@ const payDay = useMemo(() => {
   );
 
   const [onShift, setOnShift] = useState<boolean>();
-  const [btnText, setBtnText] = useState<string>();
 
   const checkOnShift = async() => {
     const data = await isOnShift();
@@ -86,6 +85,11 @@ const payDay = useMemo(() => {
     setOnShift(true);
   }
 
+  const handleDeleteShift = async(id: string) => {
+    await removeShift(id);
+    loadShifts();
+  }
+
   return (
     <View style={globalStyles.contWithHeader}>
     
@@ -100,7 +104,11 @@ const payDay = useMemo(() => {
         <TouchableOpacity style={styles.button} onPress={handleStartEndShift}>
           <Text style={styles.buttonText}>{onShift ? "End Shift" : "Start Shift"}</Text>
         </TouchableOpacity>
-        <ShiftInfo shifts={shifts} title={"Current Pay Period"} custStyles={styles.shifts} cardStyle={styles.cardStyle}/>
+        <ShiftInfo shifts={shifts}
+          title={"Current Pay Period"}
+          custStyles={styles.shifts} 
+          cardStyle={styles.cardStyle} 
+          onDelete={handleDeleteShift}/>
       </ScrollView>
     </View>
   );

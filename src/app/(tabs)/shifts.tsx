@@ -1,6 +1,6 @@
 import { globalStyles } from "@/styles/global";
 import { View, Text, StyleSheet, ScrollView} from "react-native";
-import { getShifts, Shift } from "@/storage/shifts";
+import { getShifts, Shift, removeShift } from "@/storage/shifts";
 import { useCallback, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import  ShiftInfo  from '@/Components/shiftInfo'
@@ -36,11 +36,20 @@ export default function ShiftsScreen() {
       loadShifts();
     }, []),
   );
+  const handleDeleteShift = async(id: string) => {
+      await removeShift(id);
+      loadShifts();
+    };
     return (
         <View style={styles.container}>
             <Text style={[globalStyles.title, {textAlign: "center"}]}>All Shifts</Text>
             <ScrollView>
-                <ShiftInfo shifts={shifts} title={""} custStyles={styles.shifts} cardStyle={styles.cardStyle}/>
+                <ShiftInfo 
+                shifts={shifts} 
+                title={""} 
+                custStyles={styles.shifts} 
+                cardStyle={styles.cardStyle}
+                onDelete={handleDeleteShift}/>
             </ScrollView>
         </View>
         

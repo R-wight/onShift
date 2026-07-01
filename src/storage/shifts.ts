@@ -73,6 +73,9 @@ export const endShift = async(): Promise<void> => {
     return;
 }
 
-export const removeShift = async(id: string): Promise<void> => {
-    await AsyncStorage.removeItem(id);
+export const removeShift = async(id: string): Promise<Shift[]> => {
+    const data = await getShifts();
+    const updatedShifts = data.filter((shift) => shift.id !== id);
+    await AsyncStorage.setItem(SHIFTS_KEY, JSON.stringify(updatedShifts));
+    return updatedShifts;
 }

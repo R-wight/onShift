@@ -1,9 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { MenuProvider } from 'react-native-popup-menu';
 
 
 export default function TabLayout(){
     return(
+        <MenuProvider>
     <Tabs 
         screenOptions={{
             headerShown: false,
@@ -43,5 +45,6 @@ export default function TabLayout(){
                 }}
             />
         </Tabs>
+        </MenuProvider>
     );
 }

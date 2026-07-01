@@ -2,12 +2,14 @@ import {  Text, View, ViewStyle, StyleSheet, Alert } from "react-native";
 import { globalStyles, colors } from "@/styles/global";
 import { Shift } from "@/storage/shifts";
 import ShiftItem from "./shiftItem";
+import { removeShift } from "@/storage/shifts";
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
   MenuProvider,
+  renderers
 } from 'react-native-popup-menu';
 
 type ShiftInfoProps = {
@@ -16,19 +18,19 @@ type ShiftInfoProps = {
     // Can pass in styles so the component can be used differently on different pages
     custStyles: ViewStyle;
     cardStyle: ViewStyle;
+    onDelete: (id: string) => Promise<void>;
 }
 
-export default function ShiftInfo({ shifts, title, custStyles, cardStyle }: ShiftInfoProps) {
-    const handleDelete = async(name: string) => {
-        //console.log(new Date(parseFloat(name)));
-        console.log(name);
-        Alert.alert({} + "","Are you sure you want to delete this shift", [
+export default function ShiftInfo({ shifts, title, custStyles, cardStyle, onDelete }: ShiftInfoProps) {
+    const handleDelete = async(name: string, id: string) => {
+        Alert.alert(name + "","Are you sure you want to delete this shift", [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
+        { text: 'OK', onPress: () => onDelete(id) },
         ]);
     }
+    const Popover = renderers;
     return (
-        <MenuProvider>
+        //<MenuProvider>
             <View>
                 {title ? (
                 <Text style={[globalStyles.paragraphs, {alignSelf: "center"}]}>{title}</Text>
@@ -41,7 +43,7 @@ export default function ShiftInfo({ shifts, title, custStyles, cardStyle }: Shif
                             .slice(0,shifts.length)
                             .map((shift) => (
                                 <View style={cardStyle} key={shift.id}>
-                                <Menu >
+                                <Menu renderer={renderers.Popover}>
                                     <MenuTrigger triggerOnLongPress={true} style={styles.triggerBox}>
                                         <ShiftItem
                                         key={shift.id}
@@ -53,7 +55,7 @@ export default function ShiftInfo({ shifts, title, custStyles, cardStyle }: Shif
                                     </MenuTrigger>    
                                     <MenuOptions customStyles={optionsStyles}>
                                         <MenuOption onSelect={ () => {}} text={"Edit"} />
-                                        <MenuOption onSelect={ () => {handleDelete(shift.name)}} text={"Delete"} />
+                                        <MenuOption onSelect={ () => {handleDelete(shift.date.toLocaleDateString(), shift.id)}} text={"Delete"} />
                                     </MenuOptions>
                                 </Menu>
                                 </View>
@@ -61,7 +63,7 @@ export default function ShiftInfo({ shifts, title, custStyles, cardStyle }: Shif
                     )}
                 </View>
             </View>
-        </MenuProvider>
+        //</MenuProvider>
     );
 }
 
