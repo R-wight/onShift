@@ -3,6 +3,7 @@ import { globalStyles, colors } from "@/styles/global";
 import { Shift } from "@/storage/shifts";
 import ShiftItem from "./shiftItem";
 import { removeShift } from "@/storage/shifts";
+import { router } from "expo-router";
 import {
   Menu,
   MenuOptions,
@@ -28,7 +29,13 @@ export default function ShiftInfo({ shifts, title, custStyles, cardStyle, onDele
         { text: 'OK', onPress: () => onDelete(id) },
         ]);
     }
-    const Popover = renderers;
+    const handleEdit = (shift: Shift) => {
+        router.push({
+            pathname: "/edit-shift", 
+            params: {
+                currentShift: shift.id
+            }});
+    }
     return (
         //<MenuProvider>
             <View>
@@ -54,7 +61,7 @@ export default function ShiftInfo({ shifts, title, custStyles, cardStyle, onDele
                                         cardWidth={{width: "100%"}} />
                                     </MenuTrigger>    
                                     <MenuOptions customStyles={optionsStyles}>
-                                        <MenuOption onSelect={ () => {}} text={"Edit"} />
+                                        <MenuOption onSelect={ () => {handleEdit(shift)}} text={"Edit"} />
                                         <MenuOption onSelect={ () => {handleDelete(shift.date.toLocaleDateString(), shift.id)}} text={"Delete"} />
                                     </MenuOptions>
                                 </Menu>

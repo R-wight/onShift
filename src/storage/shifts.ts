@@ -19,6 +19,12 @@ export const getShifts = async (): Promise<Shift[]> => {
     return data ? JSON.parse(data) : [];
 };
 
+export const getSpecificShift = async (id: string): Promise<Shift | null> => {
+    const shifts = await getShifts();
+    const currentShift = shifts.find((shift) => shift.id === id);
+    return currentShift ? currentShift : null;
+}
+
 export const addShift = async(
     shift: Omit<Shift, 'id'>,
 ): Promise<Shift> => {
