@@ -1,5 +1,5 @@
 import { globalStyles } from "@/styles/global";
-import { View, Text, StyleSheet} from "react-native";
+import { View, Text, StyleSheet, ScrollView} from "react-native";
 import { getShifts, Shift } from "@/storage/shifts";
 import { useCallback, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
@@ -39,9 +39,9 @@ export default function ShiftsScreen() {
     return (
         <View style={styles.container}>
             <Text style={[globalStyles.title, {textAlign: "center"}]}>All Shifts</Text>
-            <View>
+            <ScrollView>
                 <ShiftInfo shifts={shifts} title={""} custStyles={styles.shifts} cardStyle={styles.cardStyle}/>
-            </View>
+            </ScrollView>
         </View>
         
     )

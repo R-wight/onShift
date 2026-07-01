@@ -72,3 +72,7 @@ export const endShift = async(): Promise<void> => {
     
     return;
 }
+
+export const removeShift = async(id: string): Promise<void> => {
+    await AsyncStorage.removeItem(id);
+}

@@ -1,4 +1,11 @@
 import { StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+  MenuProvider,
+} from 'react-native-popup-menu';
 
 type ShiftItemProps = {
     name: string;
@@ -35,7 +42,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 16,
     marginBottom: 10,
-    width: "31%",
+    width: undefined//"31%",
   },
   name: {
     fontSize: 16,
