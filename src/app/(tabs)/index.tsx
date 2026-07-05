@@ -8,6 +8,8 @@ import { getShifts, Shift, isOnShift, toggleShift, startShift, endShift, removeS
 import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useFocusEffect } from 'expo-router';
 import  ShiftInfo  from '@/Components/shiftInfo'
+import * as Clipboard from 'expo-clipboard';
+
 // useFocusEffect is used to update the shifts when switching between tabs
 // It loads the shifts whenever the home screen comes into focus
 //Can use ScrollView instead of view if want to scroll
@@ -53,6 +55,17 @@ const payDay = useMemo(() => {
     parsedShifts.sort((a,b) => b.date.getTime() - a.date.getTime());
     setShifts(parsedShifts);
   } 
+  const copyPast2Weeks= async() => {
+    let shiftString = "";
+    shifts.forEach( (shift) => {
+      shiftString += "Job Name: " + shift.name + " - " + shift.date.toLocaleDateString('en-US',{
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+      }) + " " + shift.startTime.toLocaleTimeString('en-US', {timeStyle:'short'}) + " - " + shift.endTime.toLocaleTimeString('en-US', {timeStyle:'short'}) + "\n";
+    } )
+    await Clipboard.setStringAsync(shiftString);
+  }
 
   useFocusEffect(
     useCallback( () => {
@@ -110,6 +123,9 @@ const payDay = useMemo(() => {
           cardStyle={styles.cardStyle} 
           onDelete={handleDeleteShift}/>
       </ScrollView>
+      <TouchableOpacity style={styles.button} onPress={copyPast2Weeks}>
+        <Text style={styles.buttonText}>Copy Past Two Weeks</Text>
+      </TouchableOpacity>
     </View>
   );
 }
