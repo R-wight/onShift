@@ -1,3 +1,4 @@
+import React from "react";
 import { globalStyles } from "@/styles/global";
 import { useState } from 'react';
 import { router } from "expo-router";
@@ -12,9 +13,11 @@ import {
 } from "react-native";
 import { getSpecificShift } from "@/storage/shifts";
 import DateTimePicker from '@react-native-community/datetimepicker'
-import { addShift } from "@/storage/shifts";
+import { addShift, editShift } from "@/storage/shifts";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
+import { useNavigation } from '@react-navigation/native';
+import { useEffect } from "react";
 
 export default function EditShiftsScreen() {
     const [name, setName] = useState('');
@@ -26,10 +29,26 @@ export default function EditShiftsScreen() {
     const [timeEnd, setTimeEnd] = useState(new Date());
 
     // Get shift id that we are working on
-    const { id } = useLocalSearchParams();
-    
-    // Need to add the addShift method here, and do some validation, check if end date is before start date
-    const handleAddShift = async () => {
+    const { currentShift } = useLocalSearchParams();
+    // Get specific shift details from storage and update fields
+    const loadShift = async(id: string|string[]) => {
+        const shift = await getSpecificShift(id);
+        if(!shift || shift === null){
+            Alert.alert("Error", "Shift not found, returning to home screen",
+                [{ text: 'OK', onPress: () => router.push("/(tabs)") }]
+            )
+        } else {
+            setName(shift.name);
+            setDate(new Date(shift.date));
+            setTimeStart(new Date(shift.startTime));
+            setTimeEnd(new Date(shift.endTime));
+        }
+        //console.log(shift);
+        //return shift;
+    }
+    //! Use effect makes the function run only once
+    useEffect( () => {loadShift(currentShift)}, [])
+    const handleSaveShift = async() => {
         // Check for if the end time of the shift is before the start time of the shift
         // Invalid time
         if(timeEnd.getTime() <= timeStart.getTime()){
@@ -42,22 +61,15 @@ export default function EditShiftsScreen() {
             Alert.alert('Error', "That date is after the current date");
             return;
         }
-        await addShift({
+        await editShift(currentShift, {
             name,
             date: date,
             startTime: timeStart,
             endTime: timeEnd
-        });
-
-        setName('');
-        setDate(new Date);
-        setTimeStart(new Date);
-        setTimeEnd(new Date);
-
-        Alert.alert('Success', "Shift added successfully!");
-        router.push('/');
-
-    };
+        })
+        Alert.alert("Shift Saved", "Shift was saved successfully!");
+        router.push("/(tabs)");
+    }
 
     const onChangeDate = (event: any, selectedDate?: Date) => {
         setShow(false); //Hides date picker
@@ -77,15 +89,7 @@ export default function EditShiftsScreen() {
             setTimeEnd(selectedTime);
         }
     }
-
-    const handleEditShift = async(id: string) => {
-        const shift = await getSpecificShift(id);
-        if(!shift){
-            Alert.alert("Error", "Shift not found, returning to home screen",
-                [{ text: 'OK', onPress: () => router.push("/(tabs)") }]
-            )
-        }
-    }
+    const navigation = useNavigation();
     return (
         // Should maybe change this style so it isn't just all in the middle
         <View style={globalStyles.contWithHeader}>
@@ -143,8 +147,11 @@ export default function EditShiftsScreen() {
                 />
                 )}
             </View>
-            <TouchableOpacity style={styles.button} onPress={handleAddShift}>
-                <Text style={styles.buttonText}>Add Shift</Text>
+            <TouchableOpacity style={styles.button} onPress={handleSaveShift}>
+                <Text style={styles.buttonText}>Save Shift</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+                <Text style={styles.buttonText}>Go Back</Text>
             </TouchableOpacity>
         </View>
     )

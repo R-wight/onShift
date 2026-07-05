@@ -13,6 +13,7 @@ import {
   renderers
 } from 'react-native-popup-menu';
 
+
 type ShiftInfoProps = {
     shifts: Shift[];
     title: string;
@@ -30,6 +31,7 @@ export default function ShiftInfo({ shifts, title, custStyles, cardStyle, onDele
         ]);
     }
     const handleEdit = (shift: Shift) => {
+        console.log(shift.id);
         router.push({
             pathname: "/edit-shift", 
             params: {

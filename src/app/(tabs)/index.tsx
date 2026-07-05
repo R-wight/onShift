@@ -44,7 +44,7 @@ const payDay = useMemo(() => {
       cutOffDate.setDate(cutOffDate.getDate() - 6)
       cutOffDate.setHours(0,0,0,0);
       const startPayPeriod = new Date(payDay);
-      startPayPeriod.setDate(startPayPeriod.getDate() - 21);
+      startPayPeriod.setDate(startPayPeriod.getDate() - 20); //20 so the last day isn't included
       startPayPeriod.setHours(0,0,0,0);
       if(newShift.date <= cutOffDate && newShift.date >= startPayPeriod){
         parsedShifts.push(newShift);

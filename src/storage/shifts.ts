@@ -19,10 +19,27 @@ export const getShifts = async (): Promise<Shift[]> => {
     return data ? JSON.parse(data) : [];
 };
 
-export const getSpecificShift = async (id: string): Promise<Shift | null> => {
+export const getSpecificShift = async (id: string|string[]): Promise<Shift | null> => {
     const shifts = await getShifts();
     const currentShift = shifts.find((shift) => shift.id === id);
     return currentShift ? currentShift : null;
+}
+
+export const editShift = async(id: string|string[], editedShift: Omit<Shift, 'id'>): Promise<void> => {
+    const currentShift = await getSpecificShift(id);
+    if(currentShift === null){
+        return;
+    }
+    const shifts = await getShifts();
+    shifts.forEach((shift) => {
+        if(currentShift.id === shift.id){
+            shift.name = editedShift.name;
+            shift.date = editedShift.date;
+            shift.startTime = editedShift.startTime;
+            shift.endTime = editedShift.endTime;
+        }
+    })
+    await AsyncStorage.setItem(SHIFTS_KEY, JSON.stringify(shifts));
 }
 
 export const addShift = async(
