@@ -154,13 +154,13 @@ const styles = StyleSheet.create({
     width: "45%",
   },
   button: {
-    backgroundColor: '#4fc3f7',
+    backgroundColor: '#10B981',
     padding: 16,
     borderRadius: 75,
     alignItems: 'center',
     marginTop: 24,
     marginBottom: 20,
-    width: '50%'
+    width: '95%'
   },
   buttonText: {
     color: '#1a1a2e',
