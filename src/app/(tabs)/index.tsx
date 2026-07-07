@@ -1,8 +1,10 @@
 // TODO: Need to add styling for the shift info components, shouldn't be in the center?
 import { Text, ScrollView, StyleSheet, Platform, View, TouchableOpacity } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 import {globalStyles} from "@/styles/global";
 import { colors } from "@/styles/global";
 import  HomeHeader  from "@/Components/homeHeader";
+import HomeStatistics from "@/Components/homeStatistics";
 import { Link } from "expo-router";
 import { getShifts, Shift, isOnShift, toggleShift, startShift, endShift, removeShift } from "@/storage/shifts";
 import { useCallback, useState, useMemo, useEffect } from 'react';
@@ -54,6 +56,12 @@ const payDay = useMemo(() => {
     }
     parsedShifts.sort((a,b) => b.date.getTime() - a.date.getTime());
     setShifts(parsedShifts);
+
+    let hours = parsedShifts.reduce<number>((total, shiftHour) => {
+      return total + ((shiftHour.endTime.getTime() - shiftHour.startTime.getTime()) / 1000 / 60 / 60)
+    }, 0).toFixed(1);
+    console.log(hours);
+    setTotalHours(parseFloat(hours));
   } 
   const copyPast2Weeks= async() => {
     let shiftString = "";
@@ -70,17 +78,11 @@ const payDay = useMemo(() => {
   // This function calculates the number of hours worked (up to 1 decimal place // 30 mins) and sets
   // it to totalHours
   const [totalHours, setTotalHours] = useState<number>();
-  const getTotalHours = () => {
-    let hours = shifts.reduce<number>((total, shiftHour) => {
-      return total + ((shiftHour.endTime.getTime() - shiftHour.startTime.getTime()) / 1000 / 60 / 60)
-    }, 0).toFixed(1);
-    setTotalHours(parseFloat(hours));
-  }
+
 
   useFocusEffect(
     useCallback( () => {
       loadShifts();
-      getTotalHours();
     }, []),
   );
 
@@ -119,15 +121,8 @@ const payDay = useMemo(() => {
 
   return (
     <View style={globalStyles.contWithHeader}>
-    
       <Text style={globalStyles.title}>OnShift</Text>
-      <Text style={globalStyles.paragraphs}>Pay Day: {payDay ? payDay.toLocaleDateString('en-US',{
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-      }) : "Error"}</Text>
-      <HomeHeader />
-      <Text style={globalStyles.paragraphs}>Total Hours: {totalHours}</Text>
+      <HomeStatistics payDay={payDay} totalHours={totalHours ?? 0}/>
       <ScrollView style={{width: "100%"}} contentContainerStyle={{alignItems: "center"}} > 
         <TouchableOpacity style={styles.button} onPress={handleStartEndShift}>
           <Text style={styles.buttonText}>{onShift ? "End Shift" : "Start Shift"}</Text>
@@ -138,8 +133,9 @@ const payDay = useMemo(() => {
           cardStyle={styles.cardStyle} 
           onDelete={handleDeleteShift}/>
       </ScrollView>
-      <TouchableOpacity style={styles.button} onPress={copyPast2Weeks}>
-        <Text style={styles.buttonText}>Copy Past Two Weeks</Text>
+      <TouchableOpacity style={styles.copyButton} onPress={copyPast2Weeks}>
+        {/* <Text style={styles.buttonText}>Copy Past Two Weeks</Text> */}
+        <Ionicons name="clipboard" size={36}></Ionicons>
       </TouchableOpacity>
     </View>
   );
@@ -170,4 +166,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  copyButton: {
+    position: 'absolute',
+    bottom: 15,
+    right: 15,
+    backgroundColor: 'beige',
+    padding: 10,
+    borderRadius: 100,
+
+  }
 });

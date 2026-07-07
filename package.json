@@ -21,6 +21,7 @@
     "@react-native-clipboard/clipboard": "^1.16.3",
     "@react-native-community/datetimepicker": "^9.1.0",
     "expo-clipboard": "~55.0.14",
+    "expo-linear-gradient": "~55.0.15",
     "expo-splash-screen": "~55.0.21",
     "react-native-popup-menu": "^0.19.0"
   }
