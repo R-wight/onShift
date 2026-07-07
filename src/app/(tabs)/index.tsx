@@ -104,6 +104,7 @@ const payDay = useMemo(() => {
       // end the shift and save the shift
       await endShift();
       setOnShift(false)
+      loadShifts();
       return;
     }
     // start the shift and save the start time
