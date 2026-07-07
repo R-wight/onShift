@@ -67,9 +67,20 @@ const payDay = useMemo(() => {
     await Clipboard.setStringAsync(shiftString);
   }
 
+  // This function calculates the number of hours worked (up to 1 decimal place // 30 mins) and sets
+  // it to totalHours
+  const [totalHours, setTotalHours] = useState<number>();
+  const getTotalHours = () => {
+    let hours = shifts.reduce<number>((total, shiftHour) => {
+      return total + ((shiftHour.endTime.getTime() - shiftHour.startTime.getTime()) / 1000 / 60 / 60)
+    }, 0).toFixed(1);
+    setTotalHours(parseFloat(hours));
+  }
+
   useFocusEffect(
     useCallback( () => {
       loadShifts();
+      getTotalHours();
     }, []),
   );
 
@@ -103,6 +114,9 @@ const payDay = useMemo(() => {
     loadShifts();
   }
 
+  
+
+
   return (
     <View style={globalStyles.contWithHeader}>
     
@@ -113,6 +127,7 @@ const payDay = useMemo(() => {
         day: 'numeric',
       }) : "Error"}</Text>
       <HomeHeader />
+      <Text style={globalStyles.paragraphs}>Total Hours: {totalHours}</Text>
       <ScrollView style={{width: "100%"}} contentContainerStyle={{alignItems: "center"}} > 
         <TouchableOpacity style={styles.button} onPress={handleStartEndShift}>
           <Text style={styles.buttonText}>{onShift ? "End Shift" : "Start Shift"}</Text>
