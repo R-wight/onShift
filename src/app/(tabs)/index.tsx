@@ -122,7 +122,7 @@ const payDay = useMemo(() => {
 
   return (
     <View style={globalStyles.contWithHeader}>
-      <Text style={globalStyles.title}>OnShift</Text>
+      <Text style={globalStyles.title}>On<Text>Shift</Text></Text>
       <HomeStatistics payDay={payDay} totalHours={totalHours ?? 0}/>
       <ScrollView style={{width: "100%"}} contentContainerStyle={{alignItems: "center"}} > 
         <TouchableOpacity style={styles.button} onPress={handleStartEndShift}>
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     gap: 10
   },
   cardStyle: {
-    width: "45%",
+    width: "95%",
   },
   button: {
     backgroundColor: '#10B981',
@@ -175,5 +175,5 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 100,
 
-  }
+  },
 });
