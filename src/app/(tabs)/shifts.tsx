@@ -20,7 +20,7 @@ export default function ShiftsScreen() {
         setShowStart(false); //Hides date picker
         if(selectedDate) {
             setDateStart(selectedDate);
-            setShowEnd(true);
+            //setShowEnd(true);
         }
     }
 
@@ -34,12 +34,15 @@ export default function ShiftsScreen() {
         }
     }
 
-    const filterShifts = () => {
+    const filterShifts = async () => {
+      await loadShifts();
       setShifts(shifts.filter((shift) => shift.date >= dateStart && shift.date <= dateEnd));
     }
 
     const clearFilter = async () => {
       await loadShifts();
+      setDateEnd(new Date());
+      setDateStart(new Date());
     }
 
     // This function gets all the shifts from storage, creates new Shift objects 
@@ -59,7 +62,6 @@ export default function ShiftsScreen() {
     }
         parsedShifts.push(newShift)
     }
-    console.log(parsedShifts)
     parsedShifts.sort((a,b) => b.date.getTime() - a.date.getTime());
     setShifts(parsedShifts);
     
@@ -89,15 +91,18 @@ export default function ShiftsScreen() {
                       value={dateStart}
                       mode="date"
                       display="default"
-                      onChange={onChangeStartDate}
+                      onValueChange={onChangeStartDate}
                   />
                   )}
+                  <Pressable onPress={()=>setShowEnd(true)}>
+                <Ionicons name="filter" size={24} color="red" />
+              </Pressable>
               {showEnd && (
                       <DateTimePicker
                       value={dateEnd}
                       mode="date"
                       display="default"
-                      onChange={onChangeEndDate}
+                      onValueChange={onChangeEndDate}
                 />
                 )}
             </View>
