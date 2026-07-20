@@ -15,7 +15,7 @@ export const globalStyles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    textDecorationLine: "underline",
+    //textDecorationLine: "underline",
     color: colors.text,
     marginTop: 50,
     marginLeft: 15
