@@ -7,12 +7,13 @@ import  ShiftInfo  from '@/Components/shiftInfo'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useEffect } from "react";
 
 export default function ShiftsScreen() {
     const [shifts, setShifts] = useState<Shift[]>([]);
+    const [origShifts, setOrigShifts] = useState<Shift[]>([]); //This keeps track of only the original shifts loaded in, this should never be changed once loaded
     const [dateStart, setDateStart] = useState(new Date());
     const [dateEnd, setDateEnd] = useState(new Date());
-    const [show, setShow] = useState(false);
     const [showStart, setShowStart] = useState(false);
     const [showEnd, setShowEnd] = useState(false);
 
@@ -20,7 +21,6 @@ export default function ShiftsScreen() {
         setShowStart(false); //Hides date picker
         if(selectedDate) {
             setDateStart(selectedDate);
-            //setShowEnd(true);
         }
     }
 
@@ -28,21 +28,26 @@ export default function ShiftsScreen() {
         setShowEnd(false); //Hides date picker
         if(selectedDate) {
             setDateEnd(selectedDate);
-            console.log(dateStart.toLocaleDateString(), dateEnd.toLocaleDateString());
-            //clearFilter();
-            filterShifts();
         }
     }
 
-    const filterShifts = async () => {
-      await loadShifts();
-      setShifts(shifts.filter((shift) => shift.date >= dateStart && shift.date <= dateEnd));
+    // When the start date or end date is changed the filter will be applied
+    useEffect(() => {
+      console.log(dateStart.toLocaleDateString(), dateEnd.toLocaleDateString());
+      const filterShifts = async () => {
+      const originalShifts = origShifts;
+      const filteredShifts = originalShifts.filter((shift) => shift.date >= dateStart && shift.date <= dateEnd);
+      setShifts(filteredShifts);
     }
+      filterShifts();
+    }, [dateStart, dateEnd]);
 
+    
+    // This function removes the filter that was applied
     const clearFilter = async () => {
-      await loadShifts();
+      setShifts(origShifts);
       setDateEnd(new Date());
-      setDateStart(new Date());
+      setDateStart(new Date(2026, 5, 1));
     }
 
     // This function gets all the shifts from storage, creates new Shift objects 
@@ -64,7 +69,7 @@ export default function ShiftsScreen() {
     }
     parsedShifts.sort((a,b) => b.date.getTime() - a.date.getTime());
     setShifts(parsedShifts);
-    
+    setOrigShifts(parsedShifts);
   } 
 
   useFocusEffect(
@@ -106,32 +111,6 @@ export default function ShiftsScreen() {
                 />
                 )}
             </View>
-            {/* <View style={styles.dateContainer}>
-              <Pressable style={[styles.rowInput]} onPress={()=>setShow(true)}>
-                <Text style={globalStyles.paragraphs}>Start Date</Text>
-                <Text style={styles.input}>{dateStart.toLocaleDateString()}</Text>
-              </Pressable>
-              {show && (
-                      <DateTimePicker
-                      value={dateStart}
-                      mode="date"
-                      display="default"
-                      onChange={onChangeStartDate}
-                  />
-                  )}
-              <Pressable style={[styles.rowInput]} onPress={()=>setShow(true)}>
-                <Text style={globalStyles.paragraphs}>End Date</Text>
-                <Text style={styles.input}>{dateEnd.toLocaleDateString()}</Text>
-              </Pressable>
-              {show && (
-                      <DateTimePicker
-                      value={dateEnd}
-                      mode="date"
-                      display="default"
-                      onChange={onChangeEndDate}
-                  />
-                  )}
-            </View> */}
             <ScrollView style={{flex: 1}}>
                 <ShiftInfo 
                 shifts={shifts} 
