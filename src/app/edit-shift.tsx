@@ -15,8 +15,8 @@ import { getSpecificShift } from "@/storage/shifts";
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { addShift, editShift } from "@/storage/shifts";
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
-import { useNavigation } from '@react-navigation/native';
+import { useLocalSearchParams, useRouter } from "expo-router";
+//import { useNavigation } from '@react-navigation/native';
 import { useEffect } from "react";
 
 export default function EditShiftsScreen() {
@@ -89,7 +89,7 @@ export default function EditShiftsScreen() {
             setTimeEnd(selectedTime);
         }
     }
-    const navigation = useNavigation();
+    //const navigation = useNavigation();
     return (
         // Should maybe change this style so it isn't just all in the middle
         <View style={globalStyles.contWithHeader}>
@@ -150,7 +150,7 @@ export default function EditShiftsScreen() {
             <TouchableOpacity style={styles.button} onPress={handleSaveShift}>
                 <Text style={styles.buttonText}>Save Shift</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.button} onPress={() => router.back()}>
                 <Text style={styles.buttonText}>Go Back</Text>
             </TouchableOpacity>
         </View>

@@ -4,7 +4,8 @@ import { getShifts, Shift, removeShift } from "@/storage/shifts";
 import { useCallback, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import  ShiftInfo  from '@/Components/shiftInfo'
-import DateTimePicker from '@react-native-community/datetimepicker'
+//import DateTimePicker from '@react-native-community/datetimepicker'
+//import DateTimePicker, { DateType } from "react-native-ui-datepicker";
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
@@ -92,14 +93,17 @@ export default function ShiftsScreen() {
                 <Ionicons name="filter" size={24} color="white" />
               </Pressable>
               {showStart && (
-                      <DateTimePicker
-                      value={dateStart}
-                      mode="date"
-                      display="default"
-                      onValueChange={onChangeStartDate}
-                  />
+                  //     <DateTimePicker
+                  //     // startDate={dateStart}
+                  //     // endDate={dateEnd}
+                  //     date={dateStart}
+                  //     mode="single"
+                  //     //onChange={({dateStart, dateEnd}) => {setDateStart(dateStart); setDateEnd(dateEnd)}}
+                  //     //onChange={onChangeStartDate}
+                  // />
+                  <Text>This is a test</Text>
                   )}
-                  <Pressable onPress={()=>setShowEnd(true)}>
+                  {/* <Pressable onPress={()=>setShowEnd(true)}>
                 <Ionicons name="filter" size={24} color="red" />
               </Pressable>
               {showEnd && (
@@ -109,7 +113,7 @@ export default function ShiftsScreen() {
                       display="default"
                       onValueChange={onChangeEndDate}
                 />
-                )}
+                )} */}
             </View>
             <ScrollView style={{flex: 1}}>
                 <ShiftInfo 
