@@ -6,19 +6,26 @@ import { router } from "expo-router";
 
 export default function CreateAccount(){
     const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
     return(
         <View style={credStyles.container}>
             <Text style={globalStyles.title}>On<Text>Shift</Text></Text>
             <View style={credStyles.card}>
-                <Text>Create a new account!</Text>
+                <Text style={{alignSelf: 'center', marginBottom: 10}}>Create a new account!</Text>
                 <TextInput 
                     style={[credStyles.input, credStyles.rowInput]}
                     placeholder='Username'
                     placeholderTextColor={'#8484847b'}
                     value={userName}
                     onChangeText={setUserName}></TextInput>
+                    <TextInput 
+                    style={[credStyles.input, credStyles.rowInput]}
+                    placeholder='Email'
+                    placeholderTextColor={'#8484847b'}
+                    value={userEmail}
+                    onChangeText={setUserEmail}></TextInput>
                     <TextInput 
                     style={[credStyles.input, credStyles.rowInput]}
                     placeholder='Password'
@@ -32,7 +39,7 @@ export default function CreateAccount(){
                     value={confPassword}
                     onChangeText={setConfPassword}></TextInput>
                 <TouchableOpacity style={credStyles.button} onPress={() => router.push("/(tabs)")}>
-                    <Text>Create Account</Text>
+                    <Text style={credStyles.buttonText}>Create Account</Text>
                 </TouchableOpacity>
                 <TouchableOpacity accessibilityRole="link" onPress={() => router.push("/login")}>
                     <Text style={styles.link}>Already have an account?</Text>

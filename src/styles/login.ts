@@ -2,11 +2,11 @@ import {StyleSheet} from "react-native";
 
 export const credStyles = StyleSheet.create({
     container: {
-        backgroundColor: "rgba(2, 84, 84, 0.61)",
+        backgroundColor: "#064E2B",
         flex: 1,
     },
     card:{
-        backgroundColor: 'grey',
+        backgroundColor: '#F8E7C9',
         margin: 'auto',
         borderColor: 'black',
         borderWidth: 1,
@@ -15,11 +15,14 @@ export const credStyles = StyleSheet.create({
         width: '75%'
     },
     button: {
-        backgroundColor: '#10B981',
+        backgroundColor: '#064E2B',
         padding: 16,
         borderRadius: 75,
         alignItems: 'center',
         marginTop: 24,
+    },
+    buttonText: {
+        color: 'white',
     },
     input: {
         backgroundColor: 'white',

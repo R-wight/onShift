@@ -24,10 +24,10 @@ export default function Login() {
                     value={password}
                     onChangeText={setPassword}></TextInput>
                 <TouchableOpacity style={credStyles.button}>
-                    <Text>Login</Text>
+                    <Text style={credStyles.buttonText}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={credStyles.button} onPress={() => router.push("/create-account")}>
-                    <Text>Create an account</Text>
+                    <Text style={credStyles.buttonText}>Create an account</Text>
                 </TouchableOpacity>
             </View>
         </View>
